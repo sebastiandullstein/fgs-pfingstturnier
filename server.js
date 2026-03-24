@@ -1,10 +1,14 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
+const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
-const PORT = 3000;
-const DATA_FILE = path.join(__dirname, 'data', 'registrations.json');
+const PORT = process.env.PORT || 3000;
+
+const supabase = createClient(
+  process.env.SUPABASE_URL || 'https://bfntpcjlbtdzllknytik.supabase.co',
+  process.env.SUPABASE_KEY || 'sb_publishable_eX0gUC_aMC-uoezb16oyHg_2V3TZUrA'
+);
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -94,26 +98,22 @@ const CONFIG = {
 
 // ─── Hilfsfunktionen ─────────────────────────────────────────────────────────
 
-function loadRegistrations() {
-  try {
-    if (!fs.existsSync(path.dirname(DATA_FILE))) {
-      fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
-    }
-    if (!fs.existsSync(DATA_FILE)) {
-      fs.writeFileSync(DATA_FILE, JSON.stringify([], null, 2));
-      return [];
-    }
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-  } catch {
-    return [];
-  }
-}
-
-function saveRegistrations(list) {
-  if (!fs.existsSync(path.dirname(DATA_FILE))) {
-    fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
-  }
-  fs.writeFileSync(DATA_FILE, JSON.stringify(list, null, 2));
+async function loadRegistrations() {
+  const { data, error } = await supabase
+    .from('registrations')
+    .select('*')
+    .order('id', { ascending: true });
+  if (error) { console.error('Supabase load error:', error); return []; }
+  return data.map(r => ({
+    id: r.id,
+    name: r.name,
+    jugend: r.jugend,
+    day: r.day,
+    slotId: r.slot_id,
+    standId: r.stand_id,
+    spenden: r.spenden || [],
+    registeredAt: r.registered_at,
+  }));
 }
 
 function calcAvailability(registrations) {
@@ -147,18 +147,19 @@ function calcAvailability(registrations) {
 
 app.get('/api/config', (_req, res) => res.json(CONFIG));
 
-app.get('/api/availability', (_req, res) => {
-  res.json(calcAvailability(loadRegistrations()));
+app.get('/api/availability', async (_req, res) => {
+  const registrations = await loadRegistrations();
+  res.json(calcAvailability(registrations));
 });
 
-app.post('/api/register', (req, res) => {
+app.post('/api/register', async (req, res) => {
   const { name, jugend, day, slotId, standId, spenden } = req.body;
 
   if (!name?.trim() || !jugend || !day || !slotId || !standId) {
     return res.status(400).json({ error: 'Alle Felder sind erforderlich.' });
   }
 
-  const registrations = loadRegistrations();
+  const registrations = await loadRegistrations();
   const avail = calcAvailability(registrations);
   const entry = avail[day]?.[slotId]?.[standId];
 
@@ -166,40 +167,40 @@ app.post('/api/register', (req, res) => {
     return res.status(409).json({ error: 'Dieser Stand ist für den gewählten Zeitslot bereits voll belegt.' });
   }
 
-  registrations.push({
-    id: Date.now(),
+  const { error } = await supabase.from('registrations').insert({
     name: name.trim(),
     jugend,
     day,
-    slotId,
-    standId,
+    slot_id: slotId,
+    stand_id: standId,
     spenden: Array.isArray(spenden) ? spenden : [],
-    registeredAt: new Date().toISOString(),
   });
 
-  saveRegistrations(registrations);
+  if (error) {
+    console.error('Supabase insert error:', error);
+    return res.status(500).json({ error: 'Fehler beim Speichern.' });
+  }
   res.json({ success: true });
 });
 
 // Admin: alle Anmeldungen
-app.get('/api/admin/registrations', (_req, res) => {
-  res.json(loadRegistrations());
+app.get('/api/admin/registrations', async (_req, res) => {
+  res.json(await loadRegistrations());
 });
 
 // Admin: Anmeldung löschen (mit Authentifizierung)
-app.delete('/api/admin/registrations/:id', (req, res) => {
+app.delete('/api/admin/registrations/:id', async (req, res) => {
   const auth = req.headers.authorization;
   if (!auth || auth !== 'Basic ' + Buffer.from('FGS:1234').toString('base64')) {
     return res.status(401).json({ error: 'Nicht autorisiert.' });
   }
   const id = parseInt(req.params.id, 10);
-  const registrations = loadRegistrations();
-  const idx = registrations.findIndex(r => r.id === id);
-  if (idx === -1) {
-    return res.status(404).json({ error: 'Anmeldung nicht gefunden.' });
+
+  const { error } = await supabase.from('registrations').delete().eq('id', id);
+  if (error) {
+    console.error('Supabase delete error:', error);
+    return res.status(500).json({ error: 'Fehler beim Löschen.' });
   }
-  registrations.splice(idx, 1);
-  saveRegistrations(registrations);
   res.json({ success: true });
 });
 
