@@ -1,0 +1,12 @@
+{
+  "name": "fgs-pfingstturnier",
+  "version": "1.0.0",
+  "description": "FGS Pfingstturnier 2026 – Helferanmeldung",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

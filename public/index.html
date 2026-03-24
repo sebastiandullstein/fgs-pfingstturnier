@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FGS Pfingstturnier 2026 – Helferanmeldung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:        #3272B9;
+      --blue-light:  #4a8fd4;
+      --blue-dark:   #245a96;
+      --dark:        #27282a;
+      --dark-soft:   #3b3d40;
+      --bg:          #f4f5f7;
+      --card:        #ffffff;
+      --text:        #2c2e31;
+      --muted:       #6b7280;
+      --border:      #e2e5ea;
+      --green:       #16a34a;
+      --green-bg:    #ecfdf5;
+      --green-border:#a7f3d0;
+      --red:         #dc2626;
+      --red-bg:      #fef2f2;
+      --amber:       #f59e0b;
+      --radius:      8px;
+      --radius-lg:   12px;
+      --shadow:      0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.06);
+      --shadow-lg:   0 4px 24px rgba(0,0,0,.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lexend Deca', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    .topnav {
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topnav .brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem;
+      letter-spacing: -.02em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .topnav .brand span { color: var(--blue-light); }
+    .topnav nav { display: flex; gap: 4px; }
+    .topnav nav a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: all .15s;
+    }
+    .topnav nav a:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .topnav nav a.active { color: #fff; background: var(--blue); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, var(--blue-light) 100%);
+      color: #fff;
+      padding: 36px 20px 32px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: calc(1.3rem + .8vw);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      margin-bottom: 6px;
+    }
+    .hero p { font-size: .9rem; opacity: .85; font-weight: 400; }
+
+    /* ── Progress Bar ── */
+    .progress-wrap {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+    }
+    .progress-steps {
+      max-width: 540px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+      transition: color .2s;
+    }
+    .progress-step.active { color: var(--blue); }
+    .progress-step.done { color: var(--green); }
+    .progress-step .num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .68rem;
+      background: var(--border);
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: all .2s;
+    }
+    .progress-step.active .num { background: var(--blue); color: #fff; }
+    .progress-step.done .num   { background: var(--green); color: #fff; }
+    .progress-line {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin: 0 6px;
+      min-width: 12px;
+      transition: background .2s;
+    }
+    .progress-line.done { background: var(--green); }
+    @media (max-width: 480px) {
+      .progress-step .lbl { display: none; }
+      .progress-line { min-width: 8px; margin: 0 3px; }
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 560px; margin: 0 auto; padding: 20px 16px 80px; }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 24px 22px;
+      margin-bottom: 14px;
+    }
+    .card h2 {
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 18px;
+      letter-spacing: -.02em;
+    }
+
+    /* ── Jugend Grid ── */
+    .jugend-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    @media (min-width: 480px) {
+      .jugend-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .jugend-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      font-family: inherit;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .jugend-btn:hover  { border-color: var(--blue-light); background: #f0f6ff; }
+    .jugend-btn.active { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .jugend-btn .day-tag {
+      font-size: .65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: #eef3f9;
+      color: var(--blue-dark);
+      flex-shrink: 0;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .jugend-btn.active .day-tag { background: rgba(255,255,255,.2); color: #fff; }
+
+    /* ── Day Banner ── */
+    .day-banner {
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: .84rem;
+      font-weight: 600;
+      color: #065f46;
+      margin-bottom: 14px;
+    }
+
+    /* ── Text Input ── */
+    .field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .field input[type=text] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: .95rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s;
+    }
+    .field input[type=text]:focus { border-color: var(--blue); }
+
+    /* ── Slot List ── */
+    .slot-list { display: flex; flex-direction: column; gap: 8px; }
+    .slot-btn {
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      font-family: inherit;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all .15s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .slot-btn .slot-youth {
+      font-size: .68rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: #f3f4f6;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .slot-btn:hover        { border-color: var(--blue-light); background: #f0f6ff; }
+    .slot-btn.active       { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .slot-btn.active .slot-youth { background: rgba(255,255,255,.2); color: #fff; }
+
+    /* ── Stand Cards ── */
+    .stands-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 400px) {
+      .stands-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .stand-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 14px;
+      cursor: pointer;
+      transition: all .15s;
+      position: relative;
+      background: #fff;
+      text-align: center;
+    }
+    .stand-card:hover:not(.full) { border-color: var(--blue-light); background: #f0f6ff; }
+    .stand-card.active           { border-color: var(--blue); background: #eef4fc; }
+    .stand-card.full             { opacity: .4; cursor: not-allowed; background: #fafafa; }
+    .stand-card h3 { font-size: .82rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+    .stand-card .cap-bar-wrap {
+      background: #e5e7eb;
+      border-radius: 4px;
+      height: 5px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .stand-card .cap-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width .3s;
+    }
+    .stand-card .cap-bar.green  { background: var(--green); }
+    .stand-card .cap-bar.amber  { background: var(--amber); }
+    .stand-card .cap-bar.red    { background: var(--red); }
+    .stand-card .cap-text { font-size: .7rem; color: var(--muted); font-weight: 600; }
+    .full-badge {
+      position: absolute;
+      top: 8px; right: 8px;
+      background: var(--red);
+      color: #fff;
+      font-size: .6rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    /* ── Spenden ── */
+    .spenden-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .spenden-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .15s;
+      background: #fff;
+      font-size: .9rem;
+      font-weight: 600;
+      user-select: none;
+    }
+    .spenden-item:hover  { border-color: var(--blue-light); background: #f0f6ff; }
+    .spenden-item.checked { border-color: var(--blue); background: #eef4fc; }
+    .spenden-item input[type=checkbox] {
+      width: 20px; height: 20px;
+      accent-color: var(--blue);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .spenden-skip {
+      width: 100%;
+      padding: 13px;
+      background: transparent;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: .84rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .spenden-skip:hover { border-color: var(--blue); color: var(--blue); }
+    .optional-badge {
+      font-size: .62rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      background: #eef3f9;
+      color: var(--blue);
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      margin-left: 6px;
+    }
+
+    /* ── Summary ── */
+    .summary {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px;
+      margin-bottom: 14px;
+      font-size: .85rem;
+      line-height: 2;
+    }
+    .summary strong { color: var(--dark); }
+
+    /* ── Submit ── */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+      letter-spacing: -.02em;
+    }
+    .btn-submit:hover    { background: var(--blue-dark); }
+    .btn-submit:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    /* ── Success ── */
+    .success { text-align: center; padding: 40px 20px; }
+    .success .icon { font-size: 3rem; margin-bottom: 12px; }
+    .success h2 { font-size: 1.2rem; color: var(--dark); margin-bottom: 8px; font-weight: 900; }
+    .success p  { color: var(--muted); margin-bottom: 20px; font-size: .88rem; line-height: 1.6; }
+    .success .actions { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+    .btn-primary {
+      padding: 13px 28px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: .9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-outline {
+      padding: 11px 24px;
+      background: transparent;
+      color: var(--blue);
+      border: 2px solid var(--blue);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: .84rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-outline:hover { background: #f0f6ff; }
+
+    /* ── Error ── */
+    .error-msg {
+      background: var(--red-bg);
+      border: 1px solid #fecaca;
+      color: var(--red);
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: .84rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<div class="topnav">
+  <a class="brand" href="/">⚽ <span>FGS</span> Pfingstturnier</a>
+  <nav>
+    <a href="/" class="active">Anmelden</a>
+    <a href="/admin.html">Belegungsplan</a>
+  </nav>
+</div>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <h1>Helferanmeldung 2026</h1>
+  <p>Melde dich und deine Familie als Helfer an</p>
+</div>
+
+<!-- ── Progress ── -->
+<div class="progress-wrap">
+  <div class="progress-steps" id="progress-steps">
+    <div class="progress-step active" data-step="1"><span class="num">1</span><span class="lbl">Jugend</span></div>
+    <div class="progress-line" data-line="1"></div>
+    <div class="progress-step" data-step="2"><span class="num">2</span><span class="lbl">Name</span></div>
+    <div class="progress-line" data-line="2"></div>
+    <div class="progress-step" data-step="3"><span class="num">3</span><span class="lbl">Zeitslot</span></div>
+    <div class="progress-line" data-line="3"></div>
+    <div class="progress-step" data-step="4"><span class="num">4</span><span class="lbl">Stand</span></div>
+    <div class="progress-line" data-line="4"></div>
+    <div class="progress-step" data-step="5"><span class="num">5</span><span class="lbl">Spenden</span></div>
+  </div>
+</div>
+
+<div class="container" id="app">
+
+  <!-- ── Formular ── -->
+  <div id="form-view">
+
+    <!-- Schritt 1: Jugend -->
+    <div class="card" id="s1">
+      <h2>Welche Jugend?</h2>
+      <div class="jugend-grid" id="jugend-grid"></div>
+    </div>
+
+    <!-- Tag-Banner -->
+    <div class="hidden" id="s2-info">
+      <div class="day-banner" id="day-banner-text"></div>
+    </div>
+
+    <!-- Schritt 2: Name -->
+    <div class="card hidden" id="s3">
+      <h2>Dein Name</h2>
+      <div class="field">
+        <label for="input-name">Vor- und Nachname</label>
+        <input type="text" id="input-name" placeholder="z. B. Maria Mustermann" autocomplete="name" />
+      </div>
+    </div>
+
+    <!-- Schritt 3: Zeitslot -->
+    <div class="card hidden" id="s4">
+      <h2>Zeitslot wählen</h2>
+      <div class="slot-list" id="slot-list"></div>
+    </div>
+
+    <!-- Schritt 4: Stand -->
+    <div class="card hidden" id="s5">
+      <h2>Stand wählen</h2>
+      <div class="stands-grid" id="stands-grid"></div>
+    </div>
+
+    <!-- Schritt 5: Spenden -->
+    <div class="card hidden" id="s5-spenden">
+      <h2>Möchtest du etwas mitbringen? <span class="optional-badge">optional</span></h2>
+      <div class="spenden-list" id="spenden-list"></div>
+      <button class="spenden-skip" id="spenden-weiter" onclick="skipSpenden()">
+        Nichts mitbringen &rarr; Weiter
+      </button>
+    </div>
+
+    <!-- Zusammenfassung -->
+    <div class="hidden" id="s6">
+      <div class="summary" id="summary-box"></div>
+      <div class="error-msg hidden" id="error-msg"></div>
+      <button class="btn-submit" id="btn-submit" onclick="submitForm()">Jetzt anmelden</button>
+    </div>
+  </div>
+
+  <!-- ── Erfolg ── -->
+  <div class="card hidden" id="success-view">
+    <div class="success">
+      <div class="icon">&#10003;</div>
+      <h2>Anmeldung erfolgreich!</h2>
+      <p id="success-text"></p>
+      <div class="actions">
+        <button class="btn-primary" onclick="resetForm()">Weitere Person anmelden</button>
+        <a class="btn-outline" href="/admin.html">Belegungsplan ansehen</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let CONFIG = {};
+let availability = {};
+let sel = { jugend: null, day: null, slotId: null, standId: null, spenden: [] };
+
+async function init() {
+  [CONFIG, availability] = await Promise.all([
+    fetch('/api/config').then(r => r.json()),
+    fetch('/api/availability').then(r => r.json()),
+  ]);
+  buildJugendGrid();
+}
+
+// ── Progress ──
+function setProgress(step) {
+  document.querySelectorAll('.progress-step').forEach(el => {
+    const s = +el.dataset.step;
+    el.classList.toggle('done', s < step);
+    el.classList.toggle('active', s === step);
+  });
+  document.querySelectorAll('.progress-line').forEach(el => {
+    el.classList.toggle('done', +el.dataset.line < step);
+  });
+}
+
+// ── Jugend ──
+function buildJugendGrid() {
+  const grid = document.getElementById('jugend-grid');
+  grid.innerHTML = Object.entries(CONFIG.jugendMapping).map(([id, info]) => {
+    const dayLabel = CONFIG.days[info.day].label;
+    return `<button class="jugend-btn" data-jugend="${id}" onclick="selectJugend('${id}')">
+      <span>${esc(info.label)}</span>
+      <span class="day-tag">${dayLabel}</span>
+    </button>`;
+  }).join('');
+}
+
+function selectJugend(j) {
+  sel = { jugend: j, day: CONFIG.jugendMapping[j].day, slotId: null, standId: null, spenden: [] };
+  document.querySelectorAll('.jugend-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.jugend === j));
+  show('s2-info');
+  document.getElementById('day-banner-text').textContent =
+    `${CONFIG.days[sel.day].label} – automatisch zugewiesen`;
+  show('s3');
+  buildSlots();
+  const nameInput = document.getElementById('input-name');
+  nameInput.oninput = onNameInput;
+  if (nameInput.value.trim().length >= 2) { show('s4'); setProgress(3); }
+  else { hide('s4'); setProgress(2); }
+  hide('s5'); hide('s5-spenden'); hide('s6');
+}
+
+// ── Name ──
+function onNameInput() {
+  if (document.getElementById('input-name').value.trim().length >= 2) {
+    show('s4'); setProgress(3);
+  } else {
+    hide('s4'); hide('s5'); hide('s5-spenden'); hide('s6'); setProgress(2);
+  }
+}
+
+// ── Slots ──
+function buildSlots() {
+  if (!sel.day) return;
+  const dayConf = CONFIG.days[sel.day];
+  const slots = dayConf.slots.filter(s => s.youth.includes(sel.jugend));
+  document.getElementById('slot-list').innerHTML = slots.map(s => {
+    const youthLabels = s.youth.map(y => CONFIG.jugendMapping[y]?.label ?? y).join(', ');
+    return `<button class="slot-btn" data-slot="${s.id}" onclick="selectSlot('${s.id}')">
+      <span>${s.label}</span>
+      <span class="slot-youth">${esc(youthLabels)}</span>
+    </button>`;
+  }).join('');
+}
+
+function selectSlot(slotId) {
+  sel.slotId = slotId;
+  sel.standId = null;
+  sel.spenden = [];
+  document.querySelectorAll('.slot-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.slot === slotId));
+  buildStands();
+  setProgress(4);
+  hide('s5-spenden'); hide('s6');
+}
+
+// ── Stände ──
+function buildStands() {
+  const stands = CONFIG.days[sel.day].stands;
+  document.getElementById('stands-grid').innerHTML = stands.map(stand => {
+    const a = availability[sel.day]?.[sel.slotId]?.[stand.id];
+    const cap = a ? a.capacity : stand.capacity;
+    const used = a ? a.registered : 0;
+    const rem = cap - used;
+    const pct = cap > 0 ? Math.round((used / cap) * 100) : 0;
+    const full = rem <= 0;
+    const barClass = pct >= 100 ? 'red' : pct >= 66 ? 'amber' : 'green';
+    return `<div class="stand-card ${full ? 'full' : ''}" data-stand="${stand.id}"
+        ${full ? '' : `onclick="selectStand('${stand.id}')"`}>
+      ${full ? '<div class="full-badge">Besetzt</div>' : ''}
+      <h3>${stand.label}</h3>
+      <div class="cap-bar-wrap"><div class="cap-bar ${barClass}" style="width:${pct}%"></div></div>
+      <div class="cap-text">${rem}/${cap} frei</div>
+    </div>`;
+  }).join('');
+  show('s5');
+}
+
+function selectStand(standId) {
+  const a = availability[sel.day]?.[sel.slotId]?.[standId];
+  if (a && a.remaining <= 0) return;
+  sel.standId = standId;
+  sel.spenden = [];
+  document.querySelectorAll('.stand-card').forEach(c =>
+    c.classList.toggle('active', c.dataset.stand === standId));
+  buildSpendenList();
+  show('s5-spenden');
+  setProgress(5);
+  hide('s6');
+}
+
+// ── Spenden ──
+function buildSpendenList() {
+  document.getElementById('spenden-list').innerHTML = CONFIG.spendenItems.map(item => `
+    <label class="spenden-item" data-spenden="${item.id}">
+      <input type="checkbox" value="${item.id}" onchange="toggleSpenden('${item.id}',this.checked)" />
+      ${esc(item.label)}
+    </label>`).join('');
+  updateSpendenBtn();
+}
+
+function toggleSpenden(id, checked) {
+  const lbl = document.querySelector(`.spenden-item[data-spenden="${id}"]`);
+  if (checked) { if (!sel.spenden.includes(id)) sel.spenden.push(id); lbl?.classList.add('checked'); }
+  else { sel.spenden = sel.spenden.filter(s => s !== id); lbl?.classList.remove('checked'); }
+  updateSpendenBtn();
+}
+
+function updateSpendenBtn() {
+  const btn = document.getElementById('spenden-weiter');
+  btn.textContent = sel.spenden.length > 0
+    ? `${sel.spenden.length} Mitbringsel bestätigt → Weiter`
+    : 'Nichts mitbringen → Weiter';
+}
+
+function skipSpenden() { buildSummary(); show('s6'); }
+
+// ── Summary ──
+function buildSummary() {
+  const name = document.getElementById('input-name').value.trim();
+  const jugLbl  = CONFIG.jugendMapping[sel.jugend]?.label ?? sel.jugend;
+  const dayLbl  = CONFIG.days[sel.day].label;
+  const slotLbl = CONFIG.days[sel.day].slots.find(s => s.id === sel.slotId)?.label ?? '';
+  const sndLbl  = CONFIG.days[sel.day].stands.find(s => s.id === sel.standId)?.label ?? '';
+  const spLine = sel.spenden.length > 0
+    ? `<br><strong>Mitbringsel:</strong> ${sel.spenden.map(id=>esc(CONFIG.spendenItems.find(si=>si.id===id)?.label??id)).join(', ')}`
+    : '';
+  document.getElementById('summary-box').innerHTML = `
+    <strong>Name:</strong> ${esc(name)}<br>
+    <strong>Jugend:</strong> ${esc(jugLbl)}<br>
+    <strong>Tag:</strong> ${dayLbl}<br>
+    <strong>Zeitslot:</strong> ${slotLbl}<br>
+    <strong>Stand:</strong> ${sndLbl}${spLine}`;
+  hide('error-msg');
+}
+
+// ── Submit ──
+async function submitForm() {
+  const name = document.getElementById('input-name').value.trim();
+  if (!name || !sel.jugend || !sel.day || !sel.slotId || !sel.standId) return;
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true; btn.textContent = 'Wird gesendet…';
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, jugend: sel.jugend, day: sel.day, slotId: sel.slotId, standId: sel.standId, spenden: sel.spenden }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      const dayLbl = CONFIG.days[sel.day].label;
+      const slotLbl = CONFIG.days[sel.day].slots.find(s=>s.id===sel.slotId)?.label??'';
+      const sndLbl = CONFIG.days[sel.day].stands.find(s=>s.id===sel.standId)?.label??'';
+      const sp = sel.spenden.length>0 ? `\nMitbringsel: ${sel.spenden.map(id=>CONFIG.spendenItems.find(si=>si.id===id)?.label??id).join(', ')}` : '';
+      document.getElementById('success-text').textContent = `${name} – ${dayLbl}, ${slotLbl}, ${sndLbl}${sp}`;
+      hide('form-view'); show('success-view');
+      availability = await fetch('/api/availability').then(r=>r.json());
+    } else {
+      showError(data.error ?? 'Fehler.'); btn.disabled = false; btn.textContent = 'Jetzt anmelden';
+    }
+  } catch { showError('Verbindungsfehler.'); btn.disabled = false; btn.textContent = 'Jetzt anmelden'; }
+}
+
+// ── Reset ──
+function resetForm() {
+  sel = { jugend: null, day: null, slotId: null, standId: null, spenden: [] };
+  document.getElementById('input-name').value = '';
+  ['s2-info','s3','s4','s5','s5-spenden','s6'].forEach(hide);
+  document.querySelectorAll('.jugend-btn,.slot-btn,.stand-card,.spenden-item')
+    .forEach(el => el.classList.remove('active','checked'));
+  document.querySelectorAll('.spenden-item input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('btn-submit').textContent = 'Jetzt anmelden';
+  hide('success-view'); show('form-view'); setProgress(1);
+}
+
+// ── Helpers ──
+function show(id) { document.getElementById(id)?.classList.remove('hidden'); }
+function hide(id) { document.getElementById(id)?.classList.add('hidden'); }
+function showError(msg) { const el = document.getElementById('error-msg'); el.textContent = msg; el.classList.remove('hidden'); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+init();
+</script>
+</body>
+</html>
