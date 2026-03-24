@@ -672,7 +672,7 @@ function renderDay(dayId) {
         content += `<span class="cell-remaining full">Voll</span>`;
       }
       if (regsInCell.length === 0 && rem > 0) {
-        content = `<span class="cell-empty">${cap} Platz${cap>1?'ätze':''} frei</span>`;
+        content = `<span class="cell-empty">${cap} ${cap>1?'Plätze':'Platz'} frei</span>`;
       }
 
       return `<td class="${cellClass}">${content}</td>`;
