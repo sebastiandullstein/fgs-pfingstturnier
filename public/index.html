@@ -64,6 +64,7 @@
       align-items: center;
       gap: 8px;
     }
+    .topnav .brand img { height: 28px; width: auto; border-radius: 2px; }
     .topnav .brand span { color: var(--blue-light); }
     .topnav nav { display: flex; gap: 4px; flex-wrap: wrap; }
     .topnav nav a {
@@ -457,7 +458,7 @@
 
 <!-- ── Navigation ── -->
 <div class="topnav">
-  <a class="brand" href="/">⚽ <span>FGS</span> Pfingstturnier</a>
+  <a class="brand" href="/"><img src="/logo.jpg" alt="FGS" /> <span>FGS</span> Pfingstturnier</a>
   <nav>
     <a href="/" class="active">Anmelden</a>
     <a href="/admin.html">Belegungsplan</a>
@@ -506,8 +507,12 @@
     <div class="card hidden" id="s3">
       <h2>Dein Name</h2>
       <div class="field">
-        <label for="input-name">Vor- und Nachname</label>
-        <input type="text" id="input-name" placeholder="z. B. Maria Mustermann" autocomplete="name" />
+        <label for="input-name">Vorname</label>
+        <input type="text" id="input-name" placeholder="z. B. Maria" autocomplete="given-name" />
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label for="input-child">Vorname des Kindes</label>
+        <input type="text" id="input-child" placeholder="z. B. Luca (optional)" />
       </div>
     </div>
 
@@ -602,13 +607,21 @@ function selectJugend(j) {
   show('s3');
   buildSlots();
   const nameInput = document.getElementById('input-name');
+  const childInput = document.getElementById('input-child');
   nameInput.oninput = onNameInput;
+  childInput.oninput = onNameInput;
   if (nameInput.value.trim().length >= 2) { show('s4'); setProgress(3); }
   else { hide('s4'); setProgress(2); }
   hide('s5'); hide('s5-spenden'); hide('s6');
 }
 
 // ── Name ──
+function getDisplayName() {
+  const name = document.getElementById('input-name').value.trim();
+  const child = document.getElementById('input-child').value.trim();
+  return child ? `${name} (Elternteil von ${child})` : name;
+}
+
 function onNameInput() {
   if (document.getElementById('input-name').value.trim().length >= 2) {
     show('s4'); setProgress(3);
@@ -705,7 +718,7 @@ function skipSpenden() { buildSummary(); show('s6'); }
 
 // ── Summary ──
 function buildSummary() {
-  const name = document.getElementById('input-name').value.trim();
+  const name = getDisplayName();
   const jugLbl  = CONFIG.jugendMapping[sel.jugend]?.label ?? sel.jugend;
   const dayLbl  = CONFIG.days[sel.day].label;
   const slotLbl = CONFIG.days[sel.day].slots.find(s => s.id === sel.slotId)?.label ?? '';
@@ -724,7 +737,7 @@ function buildSummary() {
 
 // ── Submit ──
 async function submitForm() {
-  const name = document.getElementById('input-name').value.trim();
+  const name = getDisplayName();
   if (!name || !sel.jugend || !sel.day || !sel.slotId || !sel.standId) return;
   const btn = document.getElementById('btn-submit');
   btn.disabled = true; btn.textContent = 'Wird gesendet…';
@@ -753,6 +766,7 @@ async function submitForm() {
 function resetForm() {
   sel = { jugend: null, day: null, slotId: null, standId: null, spenden: [] };
   document.getElementById('input-name').value = '';
+  document.getElementById('input-child').value = '';
   ['s2-info','s3','s4','s5','s5-spenden','s6'].forEach(hide);
   document.querySelectorAll('.jugend-btn,.slot-btn,.stand-card,.spenden-item')
     .forEach(el => el.classList.remove('active','checked'));

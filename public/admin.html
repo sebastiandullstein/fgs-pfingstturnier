@@ -64,6 +64,7 @@
       align-items: center;
       gap: 8px;
     }
+    .topnav .brand img { height: 28px; width: auto; border-radius: 2px; }
     .topnav .brand span { color: var(--blue-light); }
     .topnav nav { display: flex; gap: 4px; flex-wrap: wrap; }
     .topnav nav a {
@@ -85,7 +86,7 @@
 
     /* ── Hero ── */
     .hero {
-      background: linear-gradient(135deg, var(--dark-soft) 0%, var(--dark) 100%);
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, var(--blue-light) 100%);
       color: #fff;
       padding: 28px 20px 24px;
       text-align: center;
@@ -454,7 +455,7 @@
 
 <!-- ── Navigation ── -->
 <div class="topnav">
-  <a class="brand" href="/">⚽ <span>FGS</span> Pfingstturnier</a>
+  <a class="brand" href="/"><img src="/logo.jpg" alt="FGS" /> <span>FGS</span> Pfingstturnier</a>
   <nav>
     <a href="/">Anmelden</a>
     <a href="/admin.html" class="active">Belegungsplan</a>
