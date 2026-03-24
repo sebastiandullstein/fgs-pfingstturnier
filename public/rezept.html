@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FGS Pfingstturnier 2026 – Waffelrezept</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:        #3272B9;
+      --blue-light:  #4a8fd4;
+      --blue-dark:   #245a96;
+      --dark:        #27282a;
+      --dark-soft:   #3b3d40;
+      --bg:          #f4f5f7;
+      --card:        #ffffff;
+      --text:        #2c2e31;
+      --muted:       #6b7280;
+      --border:      #e2e5ea;
+      --amber:       #f59e0b;
+      --radius:      8px;
+      --radius-lg:   12px;
+      --shadow:      0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lexend Deca', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    .topnav {
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      min-height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .topnav .brand {
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem;
+      letter-spacing: -.02em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .topnav .brand span { color: var(--blue-light); }
+    .topnav nav { display: flex; gap: 4px; flex-wrap: wrap; }
+    .topnav nav a {
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: all .15s;
+    }
+    .topnav nav a:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .topnav nav a.active { color: #fff; background: var(--blue); }
+    @media (max-width: 480px) {
+      .topnav { padding: 8px 12px; }
+      .topnav nav a { font-size: .75rem; padding: 6px 10px; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--amber) 0%, #d97706 100%);
+      color: #fff;
+      padding: 36px 20px 32px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: calc(1.3rem + .8vw);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      margin-bottom: 6px;
+    }
+    .hero p { font-size: .9rem; opacity: .9; font-weight: 400; }
+
+    /* ── Layout ── */
+    .container { max-width: 600px; margin: 0 auto; padding: 24px 16px 80px; }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 18px;
+      letter-spacing: -.02em;
+    }
+
+    /* ── Zutaten ── */
+    .zutat-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .zutat-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-size: .88rem;
+      font-weight: 600;
+    }
+    .zutat-list li .menge {
+      color: var(--amber);
+      font-weight: 700;
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+
+    /* ── Anleitung ── */
+    .anleitung {
+      font-size: .9rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    /* ── Hinweis ── */
+    .hinweis {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-size: .84rem;
+      font-weight: 600;
+      color: #92400e;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topnav">
+  <a class="brand" href="/">⚽ <span>FGS</span> Pfingstturnier</a>
+  <nav>
+    <a href="/">Anmelden</a>
+    <a href="/admin.html">Belegungsplan</a>
+    <a href="/rezept.html" class="active">Rezept</a>
+  </nav>
+</div>
+
+<div class="hero">
+  <h1>Waffelteig-Rezept</h1>
+  <p>Ergibt ca. 30 Waffeln</p>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Zutaten</h2>
+    <ul class="zutat-list">
+      <li><span>Zucker</span><span class="menge">500 g</span></li>
+      <li><span>Sonnenblumen-Margarine</span><span class="menge">500 g</span></li>
+      <li><span>Eier</span><span class="menge">10 Stk.</span></li>
+      <li><span>Vanillezucker</span><span class="menge">2 Pck.</span></li>
+      <li><span>Rum</span><span class="menge">1 kleiner Schuss</span></li>
+      <li><span>Mehl</span><span class="menge">1000 g</span></li>
+      <li><span>Backpulver</span><span class="menge">1 Pck.</span></li>
+      <li><span>Milch</span><span class="menge">1 Liter</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Zubereitung</h2>
+    <p class="anleitung">
+      Die verquirlten Eier mit dem Zucker und der Margarine glatt verrühren, bis ein schaumiger Teig entsteht.
+      Vanillezucker und Rum hinzufügen. 1000 g Mehl und das Backpulver dazugeben und verrühren — dadurch wird
+      der Teig etwas klebrig. Zuletzt nach und nach die Milch unterrühren und so lange rühren, bis der Teig
+      eine glatte und weiche Konsistenz hat.
+    </p>
+  </div>
+
+  <div class="hinweis">
+    Tipp: Den Teig am besten schon am Vorabend zubereiten und über Nacht im Kühlschrank ruhen lassen.
+    So werden die Waffeln besonders fluffig!
+  </div>
+
+</div>
+
+</body>
+</html>

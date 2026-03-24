@@ -47,10 +47,12 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      height: 56px;
+      min-height: 56px;
       position: sticky;
       top: 0;
       z-index: 100;
+      flex-wrap: wrap;
+      gap: 4px;
     }
     .topnav .brand {
       color: #fff;
@@ -63,7 +65,7 @@
       gap: 8px;
     }
     .topnav .brand span { color: var(--blue-light); }
-    .topnav nav { display: flex; gap: 4px; }
+    .topnav nav { display: flex; gap: 4px; flex-wrap: wrap; }
     .topnav nav a {
       color: rgba(255,255,255,.7);
       text-decoration: none;
@@ -75,6 +77,10 @@
     }
     .topnav nav a:hover { color: #fff; background: rgba(255,255,255,.08); }
     .topnav nav a.active { color: #fff; background: var(--blue); }
+    @media (max-width: 480px) {
+      .topnav { padding: 8px 12px; }
+      .topnav nav a { font-size: .75rem; padding: 6px 10px; }
+    }
 
     /* ── Hero ── */
     .hero {
@@ -455,6 +461,7 @@
   <nav>
     <a href="/" class="active">Anmelden</a>
     <a href="/admin.html">Belegungsplan</a>
+    <a href="/rezept.html">Rezept</a>
   </nav>
 </div>
 
